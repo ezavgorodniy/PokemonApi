@@ -3,6 +3,7 @@ using Moq;
 using Pokemon.Core.Configuration;
 using Pokemon.Core.Interfaces;
 using Pokemon.Core.Services;
+using Pokemon.Core.Wrappers;
 using Xunit;
 
 namespace Pokemon.Core.Tests
@@ -33,6 +34,24 @@ namespace Pokemon.Core.Tests
                 descriptor.Lifetime == ServiceLifetime.Transient &&
                 descriptor.ImplementationType == typeof(PokemonDescriptionService) &&
                 descriptor.ServiceType == typeof(IPokemonDescriptionService))), Times.Once);
+        }
+
+        [Fact]
+        public void PokeApiServiceRegistered()
+        {
+            _mockServiceCollection.Verify(collection => collection.Add(It.Is<ServiceDescriptor>(descriptor =>
+                descriptor.Lifetime == ServiceLifetime.Transient &&
+                descriptor.ImplementationType == typeof(PokeApiService) &&
+                descriptor.ServiceType == typeof(IPokeApiService))), Times.Once);
+        }
+
+        [Fact]
+        public void PokeApiWrapperRegistered()
+        {
+            _mockServiceCollection.Verify(collection => collection.Add(It.Is<ServiceDescriptor>(descriptor =>
+                descriptor.Lifetime == ServiceLifetime.Transient &&
+                descriptor.ImplementationType == typeof(PokeApiWrapper) &&
+                descriptor.ServiceType == typeof(IPokeApiWrapper))), Times.Once);
         }
     }
 }

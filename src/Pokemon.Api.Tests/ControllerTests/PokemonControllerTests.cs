@@ -12,15 +12,14 @@ namespace Pokemon.Api.Tests.ControllerTests
     public class PokemonControllerTests
     {
         private readonly Mock<IPokemonDescriptionService> _mockPokemonDescriptionService;
-        private readonly Mock<ILogger<PokemonController>> _mockLogger;
         private readonly PokemonController _pokemonController;
 
         public PokemonControllerTests()
         {
             _mockPokemonDescriptionService = new Mock<IPokemonDescriptionService>();
-            _mockLogger = new Mock<ILogger<PokemonController>>();
+            var mockLogger = new Mock<ILogger<PokemonController>>();
 
-            _pokemonController = new PokemonController(_mockLogger.Object, _mockPokemonDescriptionService.Object);
+            _pokemonController = new PokemonController(mockLogger.Object, _mockPokemonDescriptionService.Object);
         }
 
         [Theory]

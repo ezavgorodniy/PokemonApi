@@ -6,18 +6,31 @@ namespace Pokemon.Core.Services
 {
     public class PokemonDescriptionService : IPokemonDescriptionService
     {
-        public Task<PokemonDescription> ShakespearenStyleDescription(string pokemonName)
+        private readonly IPokeApiService _pokeApiService;
+
+        public PokemonDescriptionService(IPokeApiService pokeApiService)
+        {
+            _pokeApiService = pokeApiService;
+        }
+
+        public async Task<PokemonDescription> ShakespearenStyleDescription(string pokemonName)
         {
             if (string.IsNullOrEmpty(pokemonName))
             {
-                return Task.FromResult(null as PokemonDescription);
+                return null;
             }
 
-            return Task.FromResult(new PokemonDescription
+            var pokemonDescription = await _pokeApiService.GetDescription(pokemonName);
+            if (pokemonDescription == null)
             {
-                Description = $"Description for {pokemonName}",
+                return null;
+            }
+
+            return new PokemonDescription
+            {
+                Description = pokemonDescription,
                 Name = pokemonName
-            });
+            };
         }
     }
 }

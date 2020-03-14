@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Pokemon.Core.Configuration;
 using Pokemon.Core.Interfaces;
 using Pokemon.Core.Services;
+using Pokemon.Core.Wrappers;
 
 namespace Pokemon.Core
 {
@@ -12,6 +13,8 @@ namespace Pokemon.Core
     {
         public static void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IPokeApiWrapper, PokeApiWrapper>();
+            services.AddTransient<IPokeApiService, PokeApiService>();
             services.AddTransient<IPokemonConfiguration, PokemonConfiguration>();
             services.AddTransient<IPokemonDescriptionService, PokemonDescriptionService>();
         }
