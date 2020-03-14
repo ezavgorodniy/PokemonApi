@@ -53,5 +53,23 @@ namespace Pokemon.Core.Tests
                 descriptor.ImplementationType == typeof(PokeApiWrapper) &&
                 descriptor.ServiceType == typeof(IPokeApiWrapper))), Times.Once);
         }
+
+        [Fact]
+        public void ShakespearenApiWrapperRegistered()
+        {
+            _mockServiceCollection.Verify(collection => collection.Add(It.Is<ServiceDescriptor>(descriptor =>
+                descriptor.Lifetime == ServiceLifetime.Transient &&
+                descriptor.ImplementationType == typeof(ShakespeareanApiWrapper) &&
+                descriptor.ServiceType == typeof(IShakespeareanApiWrapper))), Times.Once);
+        }
+
+        [Fact]
+        public void ShakespearenApiServiceRegistered()
+        {
+            _mockServiceCollection.Verify(collection => collection.Add(It.Is<ServiceDescriptor>(descriptor =>
+                descriptor.Lifetime == ServiceLifetime.Transient &&
+                descriptor.ImplementationType == typeof(ShakespeareanApiService) &&
+                descriptor.ServiceType == typeof(IShakespeareanApiService))), Times.Once);
+        }
     }
 }

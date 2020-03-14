@@ -4,6 +4,8 @@
     {
         string ShakespeareanApiUrl { get; }
 
+        string ShakespeareanApiSecret { get; }
+
         string PokeApiBaseUrl { get; }
     }
 }

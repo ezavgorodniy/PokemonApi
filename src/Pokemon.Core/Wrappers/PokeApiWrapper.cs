@@ -25,12 +25,7 @@ namespace Pokemon.Core.Wrappers
 
             using var httpClient = new HttpClient();
             var response = await httpClient.GetAsync($"{_pokemonConfiguration.PokeApiBaseUrl}/v2/pokemon-species/{pokemonName}");
-            if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                return null;
-            }
-
-            return await response.Content.ReadAsStringAsync();
+            return response.StatusCode == HttpStatusCode.NotFound ? null : await response.Content.ReadAsStringAsync();
         }
     }
 }

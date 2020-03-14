@@ -21,7 +21,10 @@ namespace Pokemon.FunctionalTests
 
             var parsedJson = JObject.Parse(result);
             Assert.Equal(knownPokemonName, parsedJson["name"].Value<string>());
-            Assert.IsType<string>(parsedJson["description"].Value<string>()); // TODO: add description check 
+
+            const string expecetdDescription =
+                "Charizard flies 'round the sky in search of powerful opponents.\nit breathes fire of such most wondrous heat yond 't melts aught.\nhowever,  't nev'r turns its fiery breath on any opponent\nweaker than itself.";
+            Assert.Equal(expecetdDescription, parsedJson["description"].Value<string>()); // TODO: add description check 
         }
 
         [Fact]

@@ -7,10 +7,13 @@ namespace Pokemon.Core.Services
     public class PokemonDescriptionService : IPokemonDescriptionService
     {
         private readonly IPokeApiService _pokeApiService;
+        private readonly IShakespeareanApiService _shakespeareanApiService;
 
-        public PokemonDescriptionService(IPokeApiService pokeApiService)
+        public PokemonDescriptionService(IPokeApiService pokeApiService,
+            IShakespeareanApiService shakespeareanApiService)
         {
             _pokeApiService = pokeApiService;
+            _shakespeareanApiService = shakespeareanApiService;
         }
 
         public async Task<PokemonDescription> ShakespearenStyleDescription(string pokemonName)
@@ -26,9 +29,10 @@ namespace Pokemon.Core.Services
                 return null;
             }
 
+            var translatedPokemonDescription = await _shakespeareanApiService.Translate(pokemonDescription);
             return new PokemonDescription
             {
-                Description = pokemonDescription,
+                Description = translatedPokemonDescription,
                 Name = pokemonName
             };
         }

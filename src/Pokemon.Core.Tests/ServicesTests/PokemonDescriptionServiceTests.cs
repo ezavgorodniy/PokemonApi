@@ -9,12 +9,15 @@ namespace Pokemon.Core.Tests.ServicesTests
     public class PokemonDescriptionServiceTests
     {
         private readonly Mock<IPokeApiService> _mockPokeApiService;
+        private readonly Mock<IShakespeareanApiService> _mockShakespeareanApiService;
         private readonly PokemonDescriptionService _pokemonDescriptionService;
 
         public PokemonDescriptionServiceTests()
         {
             _mockPokeApiService = new Mock<IPokeApiService>();
-            _pokemonDescriptionService = new PokemonDescriptionService(_mockPokeApiService.Object);
+            _mockShakespeareanApiService = new Mock<IShakespeareanApiService>();
+
+            _pokemonDescriptionService = new PokemonDescriptionService(_mockPokeApiService.Object, _mockShakespeareanApiService.Object);
         }
 
         [Theory]
@@ -42,7 +45,7 @@ namespace Pokemon.Core.Tests.ServicesTests
         }
 
         [Fact]
-        public async Task ShakespearenStyleDescriptionTest()
+        public async Task ShakespearenStyleDescriptionTestExpectShakespearenApiReturnResult()
         {
             const string expectedPokemonName = "expectedPokemonName";
             const string expectedDescription = "expectedDescription";
@@ -50,12 +53,17 @@ namespace Pokemon.Core.Tests.ServicesTests
             _mockPokeApiService
                 .Setup(service => service.GetDescription(expectedPokemonName))
                 .Returns(Task.FromResult(expectedDescription));
-            
+
+            const string expectedTranslation = "expectedTranslation";
+            _mockShakespeareanApiService
+                .Setup(service => service.Translate(expectedDescription))
+                .Returns(Task.FromResult(expectedTranslation));
+;            
             var actualDescription = await _pokemonDescriptionService.ShakespearenStyleDescription(expectedPokemonName);
 
             Assert.NotNull(actualDescription);
             Assert.Equal(expectedPokemonName, actualDescription.Name);
-            Assert.Equal(expectedDescription, actualDescription.Description);
+            Assert.Equal(expectedTranslation, actualDescription.Description);
         }
     }
 }

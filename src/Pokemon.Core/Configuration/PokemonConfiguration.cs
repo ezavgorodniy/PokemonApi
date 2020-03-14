@@ -14,6 +14,8 @@ namespace Pokemon.Core.Configuration
 
         public string ShakespeareanApiUrl => _configuration["ShakespeareanApiUrl"];
 
+        public string ShakespeareanApiSecret => _configuration["ShakespeareanApiSecret"];
+
         public string PokeApiBaseUrl => _configuration["PokeApiBaseUrl"];
     }
 }

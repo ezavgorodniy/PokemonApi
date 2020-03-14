@@ -13,9 +13,13 @@ namespace Pokemon.Core
     {
         public static void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IShakespeareanApiWrapper, ShakespeareanApiWrapper>();
             services.AddTransient<IPokeApiWrapper, PokeApiWrapper>();
+            services.AddTransient<IShakespeareanApiService, ShakespeareanApiService>();
             services.AddTransient<IPokeApiService, PokeApiService>();
+
             services.AddTransient<IPokemonConfiguration, PokemonConfiguration>();
+
             services.AddTransient<IPokemonDescriptionService, PokemonDescriptionService>();
         }
     }

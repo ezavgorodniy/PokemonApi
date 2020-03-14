@@ -32,6 +32,13 @@ namespace Pokemon.Core.Tests.ConfigurationTests
                 () => _pokemonConfiguration.ShakespeareanApiUrl);
         }
 
+        [Fact]
+        public void ShakespeareanApiSecretTest()
+        {
+            RunConfigurationTest(nameof(PokemonConfiguration.ShakespeareanApiSecret), 
+                () => _pokemonConfiguration.ShakespeareanApiSecret);
+        }
+
         private void RunConfigurationTest(string key, Func<string> pokemonConfigurationGetter)
         {
             const string expectedUrl = "http://dummy.url";
