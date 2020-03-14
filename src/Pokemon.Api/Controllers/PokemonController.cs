@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Pokemon.Api.Models;
+using Pokemon.Core.Interfaces;
 
 namespace Pokemon.Api.Controllers
 {
@@ -8,21 +9,27 @@ namespace Pokemon.Api.Controllers
     [Route("[controller]")]
     public class PokemonController
     {
+        private readonly IPokemonDescriptionService _pokemonDescriptionService;
         private readonly ILogger<PokemonController> _logger;
 
-        public PokemonController(ILogger<PokemonController> logger)
+        public PokemonController(ILogger<PokemonController> logger, IPokemonDescriptionService pokemonDescriptionService)
         {
             _logger = logger;
+            _pokemonDescriptionService = pokemonDescriptionService;
         }
 
         [HttpGet("{name}")]
-        public PokemonDescription Pokemon(string name)
+        public async Task<ActionResult> Pokemon(string name)
         {
-            return new PokemonDescription
+            if (string.IsNullOrEmpty(name))
             {
-                Description = $"Description for {name}", 
-                Name = name
-            };
+                return new NotFoundResult();
+            }
+
+            var pokemonDescription = await _pokemonDescriptionService.ShakespearenStyleDescription(name);
+            return pokemonDescription != null
+                ? (ActionResult) new OkObjectResult(pokemonDescription)
+                : new NotFoundResult();
         }
     }
 }
