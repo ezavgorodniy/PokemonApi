@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Pokemon.Api.Cache;
+using Pokemon.Core.Interfaces;
 
 namespace Pokemon.Api
 {
@@ -21,6 +23,7 @@ namespace Pokemon.Api
         public void ConfigureServices(IServiceCollection services)
         {
             Core.RegisterServices.ConfigureServices(services);
+            services.AddTransient<ICacheService, InMemoryPokemonCacheService>();
             services.AddControllers();
         }
 

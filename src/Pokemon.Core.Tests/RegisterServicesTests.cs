@@ -71,5 +71,14 @@ namespace Pokemon.Core.Tests
                 descriptor.ImplementationType == typeof(ShakespeareanApiService) &&
                 descriptor.ServiceType == typeof(IShakespeareanApiService))), Times.Once);
         }
+
+        [Fact]
+        public void DefaultCacheServiceRegistered()
+        {
+            _mockServiceCollection.Verify(collection => collection.Add(It.Is<ServiceDescriptor>(descriptor =>
+                descriptor.Lifetime == ServiceLifetime.Transient &&
+                descriptor.ImplementationType == typeof(DefaultCacheService) &&
+                descriptor.ServiceType == typeof(ICacheService))), Times.Once);
+        }
     }
 }

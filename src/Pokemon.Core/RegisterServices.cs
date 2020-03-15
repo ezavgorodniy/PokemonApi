@@ -17,6 +17,7 @@ namespace Pokemon.Core
             services.AddTransient<IPokeApiWrapper, PokeApiWrapper>();
             services.AddTransient<IShakespeareanApiService, ShakespeareanApiService>();
             services.AddTransient<IPokeApiService, PokeApiService>();
+            services.AddTransient<ICacheService, DefaultCacheService>();
 
             services.AddTransient<IPokemonConfiguration, PokemonConfiguration>();
 
