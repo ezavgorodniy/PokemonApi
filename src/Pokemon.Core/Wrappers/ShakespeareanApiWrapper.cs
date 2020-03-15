@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using Pokemon.Core.Interfaces;
 
 namespace Pokemon.Core.Wrappers
@@ -32,7 +33,7 @@ namespace Pokemon.Core.Wrappers
 
             var builder = new UriBuilder(_pokemonConfiguration.ShakespeareanApiUrl)
             {
-                Query = $"text={ApplyWorkaroundForNextLine(originalText)}"
+                Query = $"text={HttpUtility.JavaScriptStringEncode(originalText)}"
             };
 
             var response = await httpClient.GetAsync(builder.Uri);
@@ -41,33 +42,8 @@ namespace Pokemon.Core.Wrappers
                 return null;
             }
 
-            if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                return null;
-            }
-
             var responseString = await response.Content.ReadAsStringAsync();
-            return RevertWorkaroundForNextLine(responseString);
-        }
-
-        /// <summary>
-        /// Required for workaround because of returning 404 from API when \n is presented
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns>replace \n with \\n</returns>
-        private static string ApplyWorkaroundForNextLine(string s)
-        {
-            return s.Replace("\n", "\\n");
-        }
-
-        /// <summary>
-        /// Required for workaround because of returning 404 from API when \n is presented
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns>replace \n with \\n</returns>
-        private static string RevertWorkaroundForNextLine(string s)
-        {
-            return s.Replace("\\\\n", "\\n");
+            return responseString;
         }
     }
 }
