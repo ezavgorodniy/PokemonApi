@@ -10,6 +10,7 @@ namespace Pokemon.FunctionalTests
     public class PokemonTests : BaseIntegrationTests
     {
         [Fact]
+        [Trait("Category", "Functional")]
         public async Task CharizardExpectReturnDescription()
         {
             const string knownPokemonName = "charizard";
@@ -28,6 +29,7 @@ namespace Pokemon.FunctionalTests
         }
 
         [Fact]
+        [Trait("Category", "Functional")]
         public async Task EmptyExpectReturnNotFound()
         {
             var response = await Client.GetAsync(new Uri($"{ApiUrl.Trim('/')}/pokemon/"));
@@ -36,6 +38,7 @@ namespace Pokemon.FunctionalTests
         }
 
         [Fact]
+        [Trait("Category", "Functional")]
         public async Task NotKnownExpectReturnNotFound()
         {
             var response = await Client.GetAsync(new Uri($"{ApiUrl.Trim('/')}/pokemon/invalidPokemonName"));
